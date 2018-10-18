@@ -54,27 +54,21 @@ set
    jumlah_cuti = 8
 where id = 'DC0001';
 
-select * from detil_cuti
-
-
 create or replace
-   trigger salary_changes
-before
-   insert or update on employees
+   trigger date_changes
+after
+   insert or update on detil_cuti
 for
    each row
 when
-   (new.employee_id > 0)
+   (new.jumlah_cuti > 0)
 declare
-   sal_diff number;
+   date_diff number;
 begin
-   sal_diff := :new.salary - :old.salary;
-   dbms_output.put_line('Old Salary : ' || :old.salary);
-   dbms_output.put_line('New Salary : ' || :new.salary);
-   dbms_output.put_line('Salary Difference : ' || sal_diff);
+   dbms_output.put_line('Jumlah Cuti : ' || :new.jumlah_cuti);
+   dbms_output.put_line('Sisa Cuti : ' || :old.jumlah_cuti);
 end;
 /
-
 
 
 
