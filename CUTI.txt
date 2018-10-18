@@ -173,3 +173,5 @@ end;
 begin
    getdata(100);
 end;
+
+coba
