@@ -68,3 +68,35 @@ BEGIN
   INSERT INTO user_log (email, activity, event_date)
   VALUES ('ahmad@gmail.com', 'LOGON', SYSDATE);
 END;
+
+//
+// 
+create or replace
+   trigger date_changes
+after
+   insert or update on detil_cuti
+for
+   each row
+when
+   (extract(month from sysdate) > 12)
+declare
+   date_diff number;
+begin
+   dbms_output.put_line('Jumlah Cuti : ' || :new.jumlah_cuti);
+   dbms_output.put_line('Sisa Cuti : ' || :old.jumlah_cuti);
+end;
+
+
+create or replace
+   trigger login
+after
+   insert or update on user_log 
+for
+   each row
+when
+  (month from new.event_date) > 12
+declare
+   date_diff number;
+begin
+   IF UPDATING THEN 
+end;
