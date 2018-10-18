@@ -1,0 +1,175 @@
+select 
+   karyawan.id, karyawan.nama, detil_cuti.lama_cuti
+from 
+   karyawan join detil_cuti 
+         on karyawan.id = detil_cuti.karyawan_id 
+where 
+   detil_cuti.start_date between '11/01/2018' and '11/10/2018'
+   and 
+   detil_cuti.end_date between '11/01/2018' and '11/10/2018'
+
+select 
+   dc.id, k.id, k.nama, k.email, c.nama, d.nama, k.job_title
+from
+   karyawan k join department d
+         on k.department_id = d.id
+              join company c
+         on d.company_id = c.id
+              join detil_cuti dc
+         on k.id = dc.karyawan_id
+              join karyawan m
+         on k.karyawan = m.karyawan
+where
+   k.manager_id = m.karyawan_id
+
+select 
+   dc.id refference, k.id karyawan, k.nama karyawan, m.nama manager, d.nama departemen, dc.submit_date, dc.start_date, dc.end_date, dc.lama_cuti, dc.note, dc.approval
+from
+   karyawan k join department d
+         on k.department_id = d.id
+              join company c
+         on d.company_id = c.id
+              join detil_cuti dc
+         on k.id = dc.karyawan_id
+              join karyawan m
+         on k.manager_id = m.id
+where
+   k.manager_id = m.id
+
+         
+select 
+   k.id, k.nama as "Nama Karwayan", m.nama as "Nama Manager"
+from 
+   karyawan k join karyawan m
+         on k.manager_id = m.id
+
+select * from cuti
+
+create or replace 
+   procedure getdata(k_id in varchar2)
+is
+   cursor kc_data is select 
+                       dc.id refference, k.id id_karyawan, k.nama nama_karyawan, m.nama nama_manager, d.nama nama_department, dc.submit_date submit_date, dc.start_date start_date, dc.end_date end_date, ct.jenis_cuti jenis_cuti, dc.note note, dc.approval approval
+                    from
+                       karyawan k join department d
+                             on k.department_id = d.id
+                                  join company c
+                             on d.company_id = c.id
+                                  join detil_cuti dc
+                             on k.id = dc.karyawan_id
+                                  join karyawan m
+                             on k.manager_id = m.id
+                                  join cuti ct
+                             on dc.cuti_id = ct.id
+                    where
+                       k.manager_id = m.id
+                    and
+                       k_id = k.id;
+   kc_rec kc_data%rowtype;
+begin
+   for kc_rec in kc_data loop
+      dbms_output.put_line('---------------------------------');
+      dbms_output.put_line('Refference Number : ' || kc_rec.refference);
+      dbms_output.put_line('ID Karyawan : ' || kc_rec.id_karyawan);
+      dbms_output.put_line('Nama Karyawan : ' || kc_rec.nama_karyawan);
+      dbms_output.put_line('Nama Manager : ' || kc_rec.nama_manager);
+      dbms_output.put_line('Nama Department : ' || kc_rec.nama_department);
+      dbms_output.put_line('Submit Date : ' || kc_rec.submit_date);
+      dbms_output.put_line('Start Date : ' || kc_rec.start_date);
+      dbms_output.put_line('End Date : ' || kc_rec.end_date);
+      dbms_output.put_line('Nama Cuti : ' || kc_rec.jenis_cuti);
+      dbms_output.put_line('Note : ' || kc_rec.note);
+      dbms_output.put_line('Approval : ' || kc_rec.approval);
+      dbms_output.put_line('---------------------------------');
+   end loop;
+end;
+/
+
+begin
+   getdata('K0002');
+end;
+
+declare
+   cursor camps is
+     select 
+        dc.id, k.id, k.nama, m.nama, d.nama, dc.submit_date, dc.start_date, dc.end_date, dc.lama_cuti, dc.note, dc.approval
+     from
+        karyawan k join department d
+              on k.department_id = d.id
+                   join company c
+              on d.company_id = c.id
+                   join detil_cuti dc
+              on k.id = dc.karyawan_id
+                   join karyawan m
+              on k.manager_id = m.id
+     where
+        k.manager_id = m.id;
+
+   type dcid_list is varray(1000) of dc.id%type;
+   type kid_list is varray(1000) of k.id%type;
+   type knama_list is varray(1000) of k.nama%type;
+   type mnama_list is varray(1000) of m.nama%type;
+   type dnama_list is varray(1000) of d.nama%type;
+   type sd_list is varray(1000) of dc.submit_date%type;
+   type std_list is varray(1000) of dc.start_date%type;
+   type end_list is varray(1000) of dc.end_date%type;
+   type lc_list is varray(1000) of dc.lama_cuti%type;
+   type note_list is varray(1000) of dc.note%type;
+   type aprv_list is varray(1000) of dc.approval%type;
+   dcidname_list dcid_list := dcid_list();
+   kidname_list kid_list := kid_list();
+   knamaname_list kdnama_list := kdnama_list();
+   mnamaname_list mnama_list := mnama_list();
+   dnamaname_list dnama_list := dnama_list();
+   sdname_list sd_list := sd_list();
+   stdname_list std_list := std_list();
+   endname_list end_list := end_list();
+   lcname_list lc_list := lc_list();
+   notename_list note_list := note_list();
+   aprvname_list aprv_list := aprv_list();
+
+   counter integer :=0;
+begin
+   for n in camps loop
+     counter := counter + 1;
+     dcid_list.extend;
+     kid_list.extend;
+     knama_list.extend;
+     mnama_list.extend;
+     dnama_list.extend;
+     sd_list.extend;
+     std_list.extend;
+     end_list.extend;
+     lc_list.extend;
+     note_list.extend;
+     aprv_list.extend;
+     dcid_list(counter) := n.id;
+     kid_list(counter) := n.id;
+     knama_list(counter) := n.nama;
+     mnama_list(counter) := n.nama;
+     dnama_list(counter) := n.nama;
+     sd_list(counter) := n.submit_date;
+     std_list(counter) := n.start_date;
+     end_list(counter) := n.end_date;
+     lc_list(counter) := n.lama_cuti;
+     note_list(counter) := n.note;
+     aprv_list(counter) := n.approval; 
+     dbms_output.put_line('First Name('||counter||') : ' || dcidname_list(counter));
+     dbms_output.put_line('Last Name('||counter||') : ' || kidname_list(counter));
+     dbms_output.put_line('Salary('||counter||') : ' || knamaname_list(counter));
+     dbms_output.put_line('Department Name('||counter||') : ' || mnamaname_list(counter));
+     dbms_output.put_line('City('||counter||') : ' || dnamaname_list(counter));
+     dbms_output.put_line('Country('||counter||') : ' || sdname_list(counter));
+     dbms_output.put_line('Region('||counter||') : ' || stdname_list(counter));
+     dbms_output.put_line('Region('||counter||') : ' || endname_list(counter));
+     dbms_output.put_line('Region('||counter||') : ' || lcname_list(counter));
+     dbms_output.put_line('Region('||counter||') : ' || notename_list(counter));
+     dbms_output.put_line('Region('||counter||') : ' || aprvname_list(counter));
+     dbms_output.put_line(' ');
+   end loop;
+end;
+
+
+begin
+   getdata(100);
+end;
