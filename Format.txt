@@ -1,0 +1,53 @@
+portal.mii.co.id
+
+form login (username, password, so#, application)
+ - forget password
+form portal
+ - cuti 
+
+profile
+ - name
+ - RM
+ - start date
+ - department = nama customer
+ - history
+  - request number
+  - submit date
+  - start
+  - end
+  - count of day
+  - note
+  - status check by RM
+   - submitted
+   - approved
+   - rejected
+   - canceled
+
+request leave
+ - leave type (sesuai status)
+  - Cuti Normal
+  - Ijin
+  - Istri Karyawan Melahirkan
+  - Menunaikan Ibadah Agama
+  - Perjalanan Bisnis
+  - Sakit
+  - Saudara Kandung/Anggota Keluarga Wafat
+  - Spouse/Orang Tua/Anak Wafat
+  (when employeer has been married)
+  - Pengkhitanan/Pembaptisan Anak
+  - Pernikahan Anak Karyawan
+ - from 
+ - to
+ - phone number
+ - note
+ - leave day (jumlah hari cuti)
+ - backup/acting
+ - attachment (form dittd oleh cust) (jpeg) (500kb)
+ - download form
+ 
+NB : cuti khusus dan cuti umum di pisah
+     aktual cuti saat submit di simpan
+     department refer ke SO#
+
+NB : jatah cuti berkurang pada saat submitted
+     jatah cuti bertambah pada saat rejected / canceled
