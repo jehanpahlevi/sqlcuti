@@ -1,11 +1,11 @@
 create or replace trigger date_changes2
 after insert or update on user_log
 for each row
-when(extract(month from sysdate) <= 6)
+when(extract(month from sysdate) <= 11)
 declare
    total number;
 begin
-   select count(karyawan_id) into total from detil_cuti where karyawan_id = 'K0002';
+   select count(karyawan_id) into total from user_log where karyawan_id = 'K0002';
    dbms_output.put_line(total);
    if(total < 2)
    then 
@@ -13,7 +13,7 @@ begin
          detil_cuti
       set
          sisa_cuti = jumlah_cuti,
-         jumlah_cuti = 2;
+         jumlah_cuti = 6;
     end if;
 end;
 
