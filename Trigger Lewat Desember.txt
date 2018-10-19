@@ -1,0 +1,23 @@
+create or replace trigger date_changes2
+after insert or update on user_log
+for each row
+when(extract(month from sysdate) <= 6)
+declare
+   total number;
+begin
+   select count(karyawan_id) into total from detil_cuti where karyawan_id = 'K0002';
+   dbms_output.put_line(total);
+   if(total < 2)
+   then 
+      update
+         detil_cuti
+      set
+         sisa_cuti = jumlah_cuti,
+         jumlah_cuti = 2;
+    end if;
+end;
+
+insert into
+   user_log
+values
+   ('ahmad@gmail.com', 'Login', sysdate, 1, 'K0002')

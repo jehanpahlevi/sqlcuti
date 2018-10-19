@@ -30,3 +30,42 @@ insert into
    user_log
 values
    ('ahmad@gmail.com', 'Logout', sysdate, 3, 'K0002')
+
+//
+create or replace trigger date_changes2
+after insert or update on user_log
+for each row
+when(extract(month from sysdate) > 12)
+declare
+   total number;
+begin
+   select count(karyawan_id) into total from detil_cuti where karyawan_id = 'K0002';
+   dbms_output.put_line(total);
+   if(total < 1)
+   then 
+      update
+         detil_cuti
+      set
+         sisa_cuti = jumlah_cuti,
+         jumlah_cuti = 2;
+    end if;
+end;
+
+describe user_log;
+select * from user_log;0
+insert into user_log (id, email, activity, event_date, karyawan_id) values (1, 'halo', 'login', sysdate, 1);
+
+update
+      detil_cuti
+   set
+      sisa_cuti = 3,
+      jumlah_cuti = 5
+   where
+      karyawan_id = 'K0002';
+
+select * from detil_cuti
+select * from user_log;
+insert into
+   user_log
+values
+   ('ahmad@gmail.com', 'Login', sysdate, 1, 'K0002')
