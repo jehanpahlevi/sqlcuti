@@ -1,0 +1,32 @@
+create or replace
+   trigger coba2
+after
+   insert or update on user_log
+for
+   each row
+begin
+   if 
+      select count(karyawan_id) from detil_cuti where karyawan_id = 'K0002'
+   then 
+      update
+         detil_cuti
+      set
+         sisa_cuti = jumlah_cuti,
+         jumlah_cuti = 2;
+    end if;
+end;
+
+update
+      detil_cuti
+   set
+      sisa_cuti = 3,
+      jumlah_cuti = 5
+   where
+      karyawan_id = 'K0002';
+
+select * from detil_cuti
+
+insert into
+   user_log
+values
+   ('ahmad@gmail.com', 'Logout', sysdate, 3, 'K0002')
