@@ -1,0 +1,102 @@
+create or replace procedure getdata(karyawan_id IN VARCHAR2)
+IS 
+ cursor e_data is  select 
+ k.id, k.nama, k.email, 
+ (select m.nama
+  from
+   karyawan w join karyawan m
+   on w.manager_id = m.id where w.id = 'K0002') manager, 
+ k.tanggal_masuk, c.nama company, d.nama department
+from 
+ karyawan k join department d 
+  on d.id = k.department_id 
+  join company c 
+  on c.id = d.company_id where k.id = karyawan_id;
+ e_rec e_data%rowtype;
+BEGIN 
+ for e_rec in e_data loop
+ dbms_output.put_line('-----------------------------------');
+  dbms_output.put_line('Employee ID : '|| e_rec.id);
+  dbms_output.put_line('Nama : '|| e_rec.nama);
+  dbms_output.put_line('Email : '|| e_rec.email);
+  dbms_output.put_line('Manager : '|| e_rec.manager);
+  dbms_output.put_line('Start Date : '|| e_rec.tanggal_masuk);
+  dbms_output.put_line('Company : '|| e_rec.company);
+  dbms_output.put_line('Department : '|| e_rec.department);
+END LOOP;
+END;
+
+begin
+   getdata('K0002');
+end;
+
+//
+create or replace
+   trigger date_changes
+after
+   insert or update on detil_cuti
+for
+   each row
+when
+   (new.jumlah_cuti > 0)
+declare
+   date_diff number;
+begin
+   dbms_output.put_line('Jumlah Cuti : ' || :new.jumlah_cuti);
+   dbms_output.put_line('Sisa Cuti : ' || :old.jumlah_cuti);
+end;
+update
+   detil_cuti
+set
+   sisa_cuti = jumlah_cuti,
+   jumlah_cuti = 8
+where id = 'DC0001';
+
+// 
+CREATE OR REPLACE TRIGGER user_log
+  AFTER LOGON
+  ON karyawan
+BEGIN
+  INSERT INTO user_log (email, activity, event_date)
+  VALUES ('ahmad@gmail.com', 'LOGON', SYSDATE);
+END;
+
+CREATE OR REPLACE TRIGGER login
+  AFTER LOGON
+  ON user_log
+BEGIN
+  INSERT INTO user_log (email, activity, event_date)
+  VALUES ('ahmad@gmail.com', 'LOGON', SYSDATE);
+END;
+
+//
+// 
+create or replace
+   trigger date_changes
+after
+   insert or update on detil_cuti
+for
+   each row
+when
+   (extract(month from sysdate) > 12)
+declare
+   date_diff number;
+begin
+   dbms_output.put_line('Jumlah Cuti : ' || :new.jumlah_cuti);
+   dbms_output.put_line('Sisa Cuti : ' || :old.jumlah_cuti);
+end;
+
+
+create or replace
+   trigger login
+after
+   insert or update on user_log 
+for
+   each row
+when
+  (month from new.event_date) > 12
+declare
+   date_diff number;
+begin
+   IF UPDATING THEN 
+end;
