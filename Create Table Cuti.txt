@@ -52,3 +52,42 @@ CREATE TABLE  "KARYAWAN"
 	 CONSTRAINT "KARYAWAN_PK" PRIMARY KEY ("ID") ENABLE
    ) ;ALTER TABLE  "KARYAWAN" ADD CONSTRAINT "FK_DEPARTMENT" FOREIGN KEY ("DEPARTMENT_ID")
 	  REFERENCES  "DEPARTMENT" ("ID") ENABLE;
+
+//
+CREATE TABLE  "USER_LOG" 
+   (	"EMAIL" VARCHAR2(30) NOT NULL ENABLE, 
+	"ACTIVITY" VARCHAR2(20) NOT NULL ENABLE, 
+	"EVENT_DATE" DATE NOT NULL ENABLE, 
+	"ID" NUMBER(10,0) NOT NULL ENABLE, 
+	"KARYAWAN_ID" VARCHAR2(10) NOT NULL ENABLE, 
+	 CONSTRAINT "USER_LOG_CON" PRIMARY KEY ("ID") ENABLE
+   ) ;ALTER TABLE  "USER_LOG" ADD CONSTRAINT "FK_ID_KARYAWAN" FOREIGN KEY ("KARYAWAN_ID")
+	  REFERENCES  "KARYAWAN" ("ID") ENABLE;
+
+CREATE OR REPLACE TRIGGER  "DATE_CHANGES2" 
+after
+   insert or update on user_log
+for
+   each row
+ WHEN (new.id > 0) declare
+   date_diff number;
+begin
+   dbms_output.put_line('Jumlah Cuti : ' || :new.jumlah_cuti);
+   dbms_output.put_line('Sisa Cuti : ' || :old.jumlah_cuti);
+end;
+/
+ALTER TRIGGER  "DATE_CHANGES2" ENABLE;
+
+CREATE OR REPLACE TRIGGER  "LOGIN" 
+after
+   insert or update on user_log 
+for
+   each row
+ WHEN (new.event_date > 12) declare
+   date_diff number;
+begin
+   dbms_output.put_line('Jumlah Cuti : ' || :new.jumlah_cuti);
+   dbms_output.put_line('Sisa Cuti : ' || :old.jumlah_cuti);
+end;
+/
+ALTER TRIGGER  "LOGIN" ENABLE;
