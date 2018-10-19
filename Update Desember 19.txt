@@ -1,0 +1,65 @@
+// 
+create or replace
+   trigger date_changes
+after
+   insert or update on detil_cuti
+for
+   each row
+when
+   (extract(month from sysdate) > 12)
+declare
+   date_diff number;
+begin
+   dbms_output.put_line('Jumlah Cuti : ' || :new.jumlah_cuti);
+   dbms_output.put_line('Sisa Cuti : ' || :old.jumlah_cuti);
+end;
+
+describe user_log
+
+//
+create or replace trigger data_changes2
+after insert or update on user_log
+for each row
+declare
+   tanda number;
+begin
+if ((extract(month from sysdate) < 6) or tanda = 0) then 
+      update
+         detil_cuti
+      set
+         sisa_cuti = jumlah_cuti,
+         jumlah_cuti = 6
+      where 
+         karyawan_id = 'K0002';
+end if;
+end;
+
+
+create or replace trigger dc_ul
+after insert or update on detil_cuti
+for each row
+declare
+   tanda number;
+begin
+if ((extract(month from sysdate) < 6)  or tanda = 0) then 
+      update
+         user_log
+      set
+         tanda = 1;
+      where 
+         karyawan_id = 'K0002';
+end if;
+end;
+
+insert into
+   user_log
+values
+   ('ahmad@gmail.com', 'Login', sysdate,2,'K0002',0)
+
+describe user_log
+ 
+select * from id_user;
+select * from detil_cuti
+select * from user_log
+describre user_log;
+drop trigger data_change2;
