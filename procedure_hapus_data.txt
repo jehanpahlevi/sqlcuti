@@ -1,0 +1,15 @@
+CREATE OR REPLACE PROCEDURE hapusdata (    
+p_345 company.nama%TYPE  
+)    
+IS  
+BEGIN  
+delete from company where nama=p_345;  
+COMMIT;  
+END;   
+
+
+begin
+hapusdata('BNI');
+end;
+
+select *from company;
