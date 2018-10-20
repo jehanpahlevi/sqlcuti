@@ -1,0 +1,16 @@
+CREATE OR REPLACE PROCEDURE tambahdata (  
+p_123 company.id%TYPE,  
+p_345 company.nama%TYPE  
+)    
+IS  
+BEGIN  
+INSERT into company (id,nama)  
+VALUES (p_123,p_345);  
+COMMIT;  
+END;   
+
+begin
+tambahdata(2,'BNI');
+end;
+
+select *from company;
