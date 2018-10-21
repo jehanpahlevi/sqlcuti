@@ -1,0 +1,25 @@
+CREATE OR REPLACE PROCEDURE updateky (   
+p_1 IN karyawan.id%TYPE,  
+p_2 IN karyawan.department_id%TYPE,
+p_3 IN karyawan.nama%TYPE, 
+p_4 IN karyawan.email%TYPE,  
+p_5 IN karyawan.no_telp%TYPE, 
+p_6 IN karyawan.tanggal_masuk%TYPE,  
+p_7 IN karyawan.job_title%TYPE, 
+p_8 IN karyawan.status%TYPE,  
+p_9 IN karyawan.jumlah_anak%TYPE, 
+p_10 IN karyawan.manager_id%TYPE    
+)  
+IS  
+BEGIN  
+UPDATE karyawan SET id=p_1, department_id=p_2, nama=p_3,
+email=p_4,no_telp=p_5,tanggal_masuk=p_6,
+job_title=p_7,status=p_8,jumlah_anak=p_9,manager_id=p_10 WHERE id=p_1;  
+COMMIT;  
+END;   
+
+begin
+updateky(1,201,'hero1','hero1@gmail.com',232323,'10/19/2018','security','menikah',7,'');
+end;
+
+select *from karyawan;

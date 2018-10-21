@@ -1,0 +1,16 @@
+create or replace function ganti_juni(e detil_cuti.karyawan_id%TYPE)
+return number AS
+total number;
+begin
+select last_year_balance into total from detil_cuti 
+where karyawan_id=e;
+ if (extract(month from sysdate)>5) 
+then total:=total-total;
+end if;
+return total;
+END;
+
+select nama,jumlah_cuti"First_Year_Balance",ganti_juni(1)"Last_Year_Balance",
+submit_date,start_date,end_date,note,approval
+from detil_cuti join karyawan
+on karyawan.id=detil_cuti.karyawan_id;

@@ -1,0 +1,14 @@
+create or replace function jumlah_cuti(d detil_cuti.karyawan_id%TYPE)
+return number AS
+total number;
+begin
+ select jumlah_cuti+last_year_balance"Total" into total from detil_cuti
+where karyawan_id=d;
+return total;
+END;
+
+select nama,submit_date,start_date,end_date,note,
+approval,jumlah_cuti"First_Year_Balance",last_year_balance,
+jumlah_cuti(1)"Total"
+from detil_cuti join karyawan
+on karyawan.id=detil_cuti.karyawan_id;

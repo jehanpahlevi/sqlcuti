@@ -1,0 +1,44 @@
+
+create or replace 
+   procedure getdata(k_id in varchar2)
+is
+   cursor kc_data is select 
+                       dc.id refference, k.id id_karyawan, k.nama nama_karyawan, m.nama nama_manager, d.nama nama_department, dc.submit_date submit_date, dc.start_date start_date, dc.end_date end_date, ct.jenis_cuti jenis_cuti, dc.note note, dc.approval approval
+                    from
+                       karyawan k join department d
+                             on k.department_id = d.id
+                                  join company c
+                             on d.company_id = c.id
+                                  join detil_cuti dc
+                             on k.id = dc.karyawan_id
+                                  join karyawan m
+                             on k.manager_id = m.id
+                                  join cuti ct
+                             on dc.cuti_id = ct.id
+                    where
+                       k.manager_id = m.id
+                    and
+                       k_id = k.id;
+   kc_rec kc_data%rowtype;
+begin
+   for kc_rec in kc_data loop
+      dbms_output.put_line('---------------------------------');
+      dbms_output.put_line('Refference Number : ' || kc_rec.refference);
+      dbms_output.put_line('ID Karyawan : ' || kc_rec.id_karyawan);
+      dbms_output.put_line('Nama Karyawan : ' || kc_rec.nama_karyawan);
+      dbms_output.put_line('Nama Manager : ' || kc_rec.nama_manager);
+      dbms_output.put_line('Nama Department : ' || kc_rec.nama_department);
+      dbms_output.put_line('Submit Date : ' || kc_rec.submit_date);
+      dbms_output.put_line('Start Date : ' || kc_rec.start_date);
+      dbms_output.put_line('End Date : ' || kc_rec.end_date);
+      dbms_output.put_line('Nama Cuti : ' || kc_rec.jenis_cuti);
+      dbms_output.put_line('Note : ' || kc_rec.note);
+      dbms_output.put_line('Approval : ' || kc_rec.approval);
+      dbms_output.put_line('---------------------------------');
+   end loop;
+end;
+/
+
+begin
+   getdata('K0002');
+end;

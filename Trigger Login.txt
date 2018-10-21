@@ -74,7 +74,7 @@ END;
 create or replace
    trigger date_changes
 after
-   insert or update on detil_cuti
+   insert or update on user_log
 for
    each row
 when
