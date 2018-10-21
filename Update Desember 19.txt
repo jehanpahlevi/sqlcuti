@@ -41,15 +41,16 @@ for each row
 declare
    tanda number;
 begin
-if ((extract(month from sysdate) < 6)  or tanda = 0) then 
+if ((extract(month from sysdate) < 6)) then
       update
          user_log
       set
-         tanda = 1;
+         tanda = 1
       where 
          karyawan_id = 'K0002';
 end if;
 end;
+
 
 insert into
    user_log
