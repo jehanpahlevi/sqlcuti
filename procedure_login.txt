@@ -1,0 +1,17 @@
+create or replace procedure logincoba(input1 in char)
+is
+cursor k_data1 is
+   select 
+      id, nama, email from karyawan
+   where
+      email = input1;
+k_rec1 k_data1%rowtype;
+begin
+for k_rec1 in k_data1 loop
+   insert into logintest values(k_rec1.id, k_rec1.nama, k_rec1.email);
+end loop;
+commit;
+dbms_output.put_line('Login Successful');
+end;
+      
+begin logincoba('ahmad@gmail.com'); end;
