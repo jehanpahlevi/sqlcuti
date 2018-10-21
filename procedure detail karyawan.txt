@@ -1,0 +1,31 @@
+create or replace procedure getdata(karyawan_id IN VARCHAR2)
+IS 
+ cursor e_data is  select 
+ k.id, k.nama, k.email, 
+ (select m.nama
+  from
+   karyawan w join karyawan m
+   on w.manager_id = m.id where w.id = 'K0002') manager, 
+ k.tanggal_masuk, c.nama company, d.nama department
+from 
+ karyawan k join department d 
+  on d.id = k.department_id 
+  join company c 
+  on c.id = d.company_id where k.id = karyawan_id;
+ e_rec e_data%rowtype;
+BEGIN 
+ for e_rec in e_data loop
+ dbms_output.put_line('-----------------------------------');
+  dbms_output.put_line('Employee ID : '|| e_rec.id);
+  dbms_output.put_line('Nama : '|| e_rec.nama);
+  dbms_output.put_line('Email : '|| e_rec.email);
+  dbms_output.put_line('Manager : '|| e_rec.manager);
+  dbms_output.put_line('Start Date : '|| e_rec.tanggal_masuk);
+  dbms_output.put_line('Company : '|| e_rec.company);
+  dbms_output.put_line('Department : '|| e_rec.department);
+END LOOP;
+END;
+
+begin
+   getdata('K0002');
+end;
