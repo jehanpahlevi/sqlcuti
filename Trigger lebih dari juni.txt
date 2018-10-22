@@ -1,0 +1,21 @@
+create or replace trigger lebihdari_juni
+after insert or update on user_log
+for each row
+declare
+   tanda number;
+begin
+if ((extract(month from sysdate) > 6) and tanda = 0) then 
+      update
+         karyawan
+      set
+         last_year = 0
+      where 
+         id = 'K0002';
+end if;
+end;
+
+
+insert into
+   user_log
+values
+   ('ahmad@gmail.com', 'Login', sysdate,1,'K0002',0)
