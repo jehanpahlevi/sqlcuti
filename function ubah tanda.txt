@@ -1,0 +1,17 @@
+create or replace function reset_tanda (id_karyawan in varchar2)
+ return number as flag number(1);
+ begin 
+  select tanda into flag
+  from user_log
+  where karyawan_id = id_karyawan;
+  if (extract(month from sysdate) < 6) then
+  flag := 1;
+   end if;
+  return (flag);
+ end;
+
+/
+select reset_tanda('K0002') from user_log;
+begin 
+ dbms_output.put_line(reset_tanda('K0002'));
+end;
