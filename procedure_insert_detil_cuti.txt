@@ -1,0 +1,22 @@
+CREATE OR REPLACE PROCEDURE insert_detil_cuti (  
+dc_id detil_cuti.id%TYPE,  
+dc_kid detil_cuti.karyawan_id%TYPE,
+dc_cid detil_cuti.cuti_id%TYPE,
+dc_sd detil_cuti.submit_date%TYPE,
+dc_std detil_cuti.start_date%TYPE,
+dc_end detil_cuti.end_date%TYPE,
+dc_lc detil_cuti.lama_cuti%TYPE,
+dc_bc detil_cuti.backup%TYPE,
+dc_note detil_cuti.note%TYPE,
+dc_appr detil_cuti.approval%TYPE
+)    
+IS  
+BEGIN  
+INSERT into detil_cuti (id, karyawan_id, cuti_id, submit_date, start_date, end_date, lama_cuti, backup, note, approval)  
+VALUES (dc_id, dc_kid, dc_cid, dc_sd, dc_std, dc_end, dc_lc, dc_bc, dc_note, dc_appr);  
+COMMIT;  
+END;   
+
+begin
+insert_detil_cuti('DC0001', 'K0002', 'C01', sysdate, '11/01/2018', '11/03/2018', 2, 'Aleldul', 'Refreshing', 'Submitted');
+end;
