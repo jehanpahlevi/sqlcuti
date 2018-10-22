@@ -8,13 +8,14 @@ p_6 IN karyawan.tanggal_masuk%TYPE,
 p_7 IN karyawan.job_title%TYPE, 
 p_8 IN karyawan.status%TYPE,  
 p_9 IN karyawan.jumlah_anak%TYPE, 
-p_10 IN karyawan.manager_id%TYPE    
+p_10 IN karyawan.manager_id%TYPE, 
+p_11 IN karyawan.password%TYPE
 )  
 IS  
 BEGIN  
 UPDATE karyawan SET id=p_1, department_id=p_2, nama=p_3,
 email=p_4,no_telp=p_5,tanggal_masuk=p_6,
-job_title=p_7,status=p_8,jumlah_anak=p_9,manager_id=p_10 WHERE id=p_1;  
+job_title=p_7,status=p_8,jumlah_anak=p_9,manager_id=p_10, password = p_11 WHERE id=p_1;  
 COMMIT;  
 END;   
 

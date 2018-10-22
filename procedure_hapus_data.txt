@@ -1,9 +1,9 @@
 CREATE OR REPLACE PROCEDURE hapusdata (    
-p_345 company.nama%TYPE  
+company_nama in company.nama%TYPE  
 )    
 IS  
 BEGIN  
-delete from company where nama=p_345;  
+delete company where nama = company_nama;  
 COMMIT;  
 END;   
 
