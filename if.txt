@@ -1,0 +1,44 @@
+
+create or replace trigger
+   submit_detil_cuti
+after
+   insert or update on detil_cuti
+for
+   each row
+declare
+   lamacuti number;
+   idkaryawan char;
+   sisa number;
+begin
+   lamacuti := lama_cuti;
+   idkaryawan := id;
+   if (select old.last_year from karyawan
+       where id = idkaryawan) = 0 then 
+      update
+         karyawan
+      set
+         old.this_year + lamacuti
+      where 
+         karyawan_id = idkaryawan;
+   else if lamacuti > (select old.last_year from karyawan
+                       where id = idkaryawan) then
+      update
+         karyawan
+      set
+         lamacuti - last_year = sisa
+         old.this_year - sisa
+      where
+         karyawan_id = idkaryawan;
+   else 
+      update
+         karyawan
+      set
+         old.last_year - lamacuti
+      where
+         karyawan_id = idkaryawan;
+   end if;
+   dbms_output.put_line('Last Year Cuti Sebelum: ' || :old.last_year);
+   dbms_output.put_line('This Year Cuti Sebelum: ' || :old.this_year);
+   dbms_output.put_line('Last Year Cuti Sesudah: ' || :new.last_year);
+   dbms_output.put_line('This Year Cuti Sesudah: ' || :new.this_year);
+end;

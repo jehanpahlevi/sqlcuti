@@ -1,0 +1,20 @@
+create or replace function get_ty(id_karyawan in varchar2)
+ return number is ty number(8);
+ begin 
+  select this_year into ty
+  from karyawan
+  where id = id_karyawan;
+  return (ty);
+ end;
+
+select get_ty('K0002') from detil_cuti;
+
+create or replace function get_ly(id_karyawan in varchar2)
+ return number is ly number(8);
+ begin 
+  select slast_year into ly
+  from karyawan
+  where id = id_karyawan;
+  return (ly);
+ end;
+select get_ly('K0002') from detil_cuti;

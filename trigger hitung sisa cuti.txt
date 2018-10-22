@@ -1,0 +1,37 @@
+select last_year , this_year into ly, ty from karyawan where id = 'K0002'
+insert into detil_cuti values ('DC001','K0002','C02', 10/9/2018, 10/20/2018,10/23/2018,3,'Aleldul','Hari Bahagia','Submitted');
+
+create or replace trigger tes
+after insert or update on detil_cuti
+for
+   each row
+declare 
+ly number ;
+ty number ;
+begin
+ select last_year , this_year into ly, ty from karyawan where id = 'K0002';
+dbms_output.put_line(ly);
+dbms_output.put_line(ty);
+end;
+
+
+describe detil_cuti;
+insert into detil_cuti values ('DC001','K0002','C02', '10/9/2018', '10/20/2018','10/23/2018',3,'Aleldul','Hari Bahagia','Submitted');
+
+create or replace trigger sisa_cuti
+after insert or update on detil_cuti
+for each row
+declare 
+ ly number ;
+ ty number ;
+ sisa number ;
+begin
+ select lama_cuti,karyawan_id into lc, k_id from detil_cuti
+ if (select last_year, this_year into ly, lt from karyawan where id = 'K0002') = 0 then 
+   update 
+    karyawan
+   set 
+    lt = old.this_year - lc
+   where k_id = 'K0002';
+end if;
+end;
