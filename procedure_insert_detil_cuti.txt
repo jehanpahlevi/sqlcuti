@@ -20,3 +20,9 @@ END;
 begin
 insert_detil_cuti('DC0001', 'K0002', 'C01', sysdate, '11/01/2018', '11/03/2018', 2, 'Aleldul', 'Refreshing', 'Submitted');
 end;
+
+
+//Input cuti pernikahan karyawan
+begin
+insert_detil_cuti('DC0005', 'K0002', 'C02', sysdate, '11/01/2018', to_date('11/01/2018') + 3, 3, 'Aleldul', 'Refreshing', 'Submitted');
+end;
