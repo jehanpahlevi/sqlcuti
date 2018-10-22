@@ -1,0 +1,26 @@
+
+CREATE OR REPLACE PROCEDURE insert_karyawan (  
+k_id karyawan.id%TYPE,  
+k_did karyawan.department_id%TYPE,
+k_nama karyawan.nama%TYPE,
+k_email karyawan.email%TYPE,
+k_telp karyawan.no_telp%TYPE,
+k_tglmsk karyawan.tanggal_masuk%TYPE,
+k_title karyawan.job_title%TYPE,
+k_status karyawan.status%TYPE,
+k_jmlanak karyawan.jumlah_anak%TYPE,
+k_mid karyawan.manager_id%TYPE,
+k_pass karyawan.password%TYPE,
+k_this karyawan.this_year%TYPE,
+k_last karyawan.last_year%TYPE
+)    
+IS  
+BEGIN  
+INSERT into karyawan (id, department_id, nama, email, no_telp, tanggal_masuk, job_title, status, jumlah_anak, manager_id, password, this_year, last_year)  
+VALUES (k_id, k_did, k_nama, k_email, k_telp, k_tglmsk, k_title, k_status, k_jmlanak, k_mid, k_pass, k_this, k_last);  
+COMMIT;  
+END;   
+
+begin
+insert_karyawan('K0004', 'D001', 'Ali', 'ali@gmail.com', '0212100202', '10/22/2018', 'Programmer', 'Menikah', 0, 'K0001', 'ali', 8, 0);
+end;
