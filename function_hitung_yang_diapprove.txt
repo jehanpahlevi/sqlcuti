@@ -1,0 +1,16 @@
+CREATE OR REPLACE FUNCTION hitungyangdiApprove 
+RETURN number IS 
+   total number(10) := 0; 
+BEGIN 
+   SELECT count(*) into total 
+   FROM detil_cuti where id IN (select id from detil_cuti where approval='terima');     
+   RETURN total; 
+END; 
+
+
+DECLARE 
+   c number(10); 
+BEGIN 
+   c := hitungyangdiApprove(); 
+   dbms_output.put_line('Total yang di approve: ' || c); 
+END; 
