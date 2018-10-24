@@ -1,0 +1,15 @@
+create or replace trigger mengurangi_hari
+after insert on detil_cuti
+for each row
+declare
+ly number;
+begin
+select last_year into ly from karyawan
+ where id=1;
+if ly > 0
+then
+update karyawan set 
+last_year =last_year-(:NEW.end_date - :NEW.start_date)
+where id=1;
+end if;
+end;
