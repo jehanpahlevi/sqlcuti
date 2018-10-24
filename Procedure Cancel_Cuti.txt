@@ -1,0 +1,13 @@
+create or replace procedure cancel_cuti2 (
+ app detil_cuti.approval%TYPE, 
+ id detil_cuti.id%TYPE)
+IS
+BEGIN  
+UPDATE detil_cuti SET approval = app WHERE approval = 'Submitted' and id = id;   
+END;   
+
+begin
+cancel_cuti2('Cancel','DC001');
+end;
+
+select * from detil_cuti;

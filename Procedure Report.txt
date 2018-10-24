@@ -1,0 +1,36 @@
+create or replace 
+   procedure getdata(p_1 detil_cuti.start_date%type,p_2 detil_cuti.end_date%type )
+is
+   cursor kc_data is select 
+       dc.id refference, k.id id_karyawan, k.nama nama_karyawan, d.nama nama_department, dc.submit_date submit_date, 
+       dc.start_date start_date, dc.end_date end_date, ct.jenis_cuti jenis_cuti, dc.note note
+                    from
+                       cuti ct join detil_cuti dc
+                       on dc.cuti_id = ct.id
+                       join karyawan k
+                       on dc.karyawan_id = k.id
+                       join department d
+                       on k.department_id = d.id
+                    where extract(month from start_date) >= extract(month from p_1) and extract(month from end_date) <= extract(month from p_2);
+   kc_rec kc_data%rowtype;
+begin
+      dbms_output.put_line('---------------REPORT---------------');
+   for kc_rec in kc_data loop
+      dbms_output.put_line('------------------------------------');
+      dbms_output.put_line('Refference Number : ' || kc_rec.refference);
+      dbms_output.put_line('ID Karyawan : ' || kc_rec.id_karyawan);
+      dbms_output.put_line('Nama Karyawan : ' || kc_rec.nama_karyawan);
+      dbms_output.put_line('Nama Department : ' || kc_rec.nama_department);
+      dbms_output.put_line('Submit Date : ' || kc_rec.submit_date);
+      dbms_output.put_line('Start Date : ' || kc_rec.start_date);
+      dbms_output.put_line('End Date : ' || kc_rec.end_date);
+      dbms_output.put_line('Nama Cuti : ' || kc_rec.jenis_cuti);
+      dbms_output.put_line('Note : ' || kc_rec.note);
+      dbms_output.put_line('------------------------------------');
+   end loop;
+end;
+/
+
+begin
+   getdata('10/01/2018', '12/31/2018');
+end;

@@ -1,0 +1,12 @@
+create or replace procedure update_activity (
+ p_1 user_log.activity%TYPE, 
+ p_2 user_log.karyawan_id%TYPE)
+IS
+BEGIN  
+UPDATE user_log SET activity = p_1 WHERE activity = 'Login' and karyawan_id = p_2;   
+END;   
+
+begin
+update_activity('Logout','K0002');
+end;
+
