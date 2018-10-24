@@ -2,7 +2,7 @@ create or replace function ganti_juni(e detil_cuti.karyawan_id%TYPE)
 return number AS
 total number;
 begin
-select last_year_balance into total from detil_cuti 
+select last_year into total from detil_cuti 
 where karyawan_id=e;
  if (extract(month from sysdate)>5) 
 then total:=total-total;
